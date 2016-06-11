@@ -1,67 +1,57 @@
-[mcc54097023@hadoop-master kddcup]$ hadoop fs -ls ./datasets/kddcup
-Found 7 items
--rw-r--r--   2 mcc54097023 supergroup       2711 2016-05-16 19:31 datasets/kddcup/kddcup.info
--rw-r--r--   2 mcc54097023 supergroup   59432870 2016-05-16 19:16 datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff
--rw-r--r--   2 mcc54097023 supergroup   14858322 2016-05-16 19:16 datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tst.arff
--rw-r--r--   2 mcc54097023 supergroup  297173309 2016-05-16 19:16 datasets/kddcup/kddcup_50_normal_versus_DOS-5-1tra.arff
--rw-r--r--   2 mcc54097023 supergroup   74294017 2016-05-16 19:16 datasets/kddcup/kddcup_50_normal_versus_DOS-5-1tst.arff
--rw-r--r--   2 mcc54097023 supergroup  594463330 2016-05-16 19:16 datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tra.arff
--rw-r--r--   2 mcc54097023 supergroup  148476979 2016-05-16 19:16 datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tst.arff
-
 10%
-64 maps
+64 map
 100 arboles
 
 FILE_SIZE=( `hadoop fs -ls datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff | awk '{print $5}'`)
-
 MAPS=64
-
 BYTES_BY_PARTITION=$((FILE_SIZE/$MAPS))
-
 MAX_BYTES_BY_PARTITION=$((BYTES_BY_PARTITION+1))
 
 hadoop fs -rm ./datasets/kddcup/kddcup.info
+
 hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.tools.Describe -p datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff -f datasets/kddcup/kddcup.info -d N 3 C 37 N L
 
-hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.BuildForest -Dmapreduce.input.fileinputformat.split.minsize=$BYTES_BY_PARTITION -Dmapreduce.input.fileinputformat.split.maxsize=$MAX_BYTES_BY_PARTITION -o output_RF_10p_64maps -d datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff -ds datasets/kddcup/kddcup.info -sl 15 -p -t 100
-16/06/11 08:31:35 INFO mapreduce.BuildForest: Partial Mapred implementation
-16/06/11 08:31:35 INFO mapreduce.BuildForest: Building the forest...
-16/06/11 08:31:36 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
-16/06/11 08:31:36 INFO input.FileInputFormat: Total input paths to process : 1
-16/06/11 08:31:36 INFO mapreduce.JobSubmitter: number of splits:64
-16/06/11 08:31:37 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0330
-16/06/11 08:31:37 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0330
-16/06/11 08:31:37 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0330/
-16/06/11 08:31:37 INFO mapreduce.Job: Running job: job_1465394124104_0330
-16/06/11 08:31:42 INFO mapreduce.Job: Job job_1465394124104_0330 running in uber mode : false
-16/06/11 08:31:42 INFO mapreduce.Job:  map 0% reduce 0%
-16/06/11 08:31:48 INFO mapreduce.Job:  map 13% reduce 0%
-16/06/11 08:31:49 INFO mapreduce.Job:  map 47% reduce 0%
-16/06/11 08:31:50 INFO mapreduce.Job:  map 69% reduce 0%
-16/06/11 08:31:51 INFO mapreduce.Job:  map 86% reduce 0%
-16/06/11 08:31:52 INFO mapreduce.Job:  map 100% reduce 0%
-16/06/11 08:31:53 INFO mapreduce.Job: Job job_1465394124104_0330 completed successfully
-16/06/11 08:31:53 INFO mapreduce.Job: Counters: 31
+hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.BuildForest -Dmapreduce.input.fileinputformat.split.minsize=$BYTES_BY_PARTITION -Dmapreduce.input.fileinputformat.split.maxsize=$MAX_BYTES_BY_PARTITION -o output_RF_10_64maps -d datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff -ds datasets/kddcup/kddcup.info -sl 15 -p -t 100
+
+16/06/11 16:31:14 INFO mapreduce.BuildForest: Partial Mapred implementation
+16/06/11 16:31:14 INFO mapreduce.BuildForest: Building the forest...
+16/06/11 16:31:14 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
+16/06/11 16:31:15 INFO input.FileInputFormat: Total input paths to process : 1
+16/06/11 16:31:15 INFO mapreduce.JobSubmitter: number of splits:64
+16/06/11 16:31:15 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0377
+16/06/11 16:31:15 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0377
+16/06/11 16:31:16 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0377/
+16/06/11 16:31:16 INFO mapreduce.Job: Running job: job_1465394124104_0377
+16/06/11 16:31:21 INFO mapreduce.Job: Job job_1465394124104_0377 running in uber mode : false
+16/06/11 16:31:21 INFO mapreduce.Job:  map 0% reduce 0%
+16/06/11 16:31:26 INFO mapreduce.Job:  map 2% reduce 0%
+16/06/11 16:31:27 INFO mapreduce.Job:  map 27% reduce 0%
+16/06/11 16:31:28 INFO mapreduce.Job:  map 38% reduce 0%
+16/06/11 16:31:29 INFO mapreduce.Job:  map 75% reduce 0%
+16/06/11 16:31:30 INFO mapreduce.Job:  map 100% reduce 0%
+16/06/11 16:31:32 INFO mapreduce.Job: Job job_1465394124104_0377 completed successfully
+16/06/11 16:31:32 INFO mapreduce.Job: Counters: 32
 	File System Counters
 		FILE: Number of bytes read=171712
-		FILE: Number of bytes written=7156022
+		FILE: Number of bytes written=7155958
 		FILE: Number of read operations=0
 		FILE: Number of large read operations=0
 		FILE: Number of write operations=0
 		HDFS: Number of bytes read=59497734
-		HDFS: Number of bytes written=88832
+		HDFS: Number of bytes written=90644
 		HDFS: Number of read operations=320
 		HDFS: Number of large read operations=0
 		HDFS: Number of write operations=128
 	Job Counters 
-		Launched map tasks=64
-		Data-local map tasks=11
+		Killed map tasks=1
+		Launched map tasks=65
+		Data-local map tasks=12
 		Rack-local map tasks=53
-		Total time spent by all maps in occupied slots (ms)=1762271
+		Total time spent by all maps in occupied slots (ms)=1773912
 		Total time spent by all reduces in occupied slots (ms)=0
-		Total time spent by all map tasks (ms)=251753
-		Total vcore-seconds taken by all map tasks=251753
-		Total megabyte-seconds taken by all map tasks=1762271000
+		Total time spent by all map tasks (ms)=253416
+		Total vcore-seconds taken by all map tasks=253416
+		Total megabyte-seconds taken by all map tasks=1773912000
 	Map-Reduce Framework
 		Map input records=388495
 		Map output records=100
@@ -69,95 +59,97 @@ hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.class
 		Spilled Records=0
 		Failed Shuffles=0
 		Merged Map outputs=0
-		GC time elapsed (ms)=944
-		CPU time spent (ms)=127380
-		Physical memory (bytes) snapshot=24607375360
-		Virtual memory (bytes) snapshot=459795615744
-		Total committed heap usage (bytes)=63201869824
+		GC time elapsed (ms)=1008
+		CPU time spent (ms)=126940
+		Physical memory (bytes) snapshot=24550096896
+		Virtual memory (bytes) snapshot=459801362432
+		Total committed heap usage (bytes)=63137906688
 	File Input Format Counters 
 		Bytes Read=59487622
 	File Output Format Counters 
-		Bytes Written=88832
-16/06/11 08:31:53 INFO common.HadoopUtil: Deleting hdfs://hadoop-master/user/mcc54097023/output_RF_10p_64maps
-16/06/11 08:31:53 INFO mapreduce.BuildForest: Build Time: 0h 0m 17s 975
-16/06/11 08:31:53 INFO mapreduce.BuildForest: Forest num Nodes: 4197
-16/06/11 08:31:53 INFO mapreduce.BuildForest: Forest mean num Nodes: 41
-16/06/11 08:31:53 INFO mapreduce.BuildForest: Forest mean max Depth: 4
-16/06/11 08:31:53 INFO mapreduce.BuildForest: Storing the forest in: output_RF_10p_64maps/forest.seq
+		Bytes Written=90644
+16/06/11 16:31:32 INFO common.HadoopUtil: Deleting hdfs://hadoop-master/user/mcc54097023/output_RF_10_64maps
+16/06/11 16:31:32 INFO mapreduce.BuildForest: Build Time: 0h 0m 18s 13
+16/06/11 16:31:32 INFO mapreduce.BuildForest: Forest num Nodes: 4315
+16/06/11 16:31:32 INFO mapreduce.BuildForest: Forest mean num Nodes: 43
+16/06/11 16:31:32 INFO mapreduce.BuildForest: Forest mean max Depth: 4
+16/06/11 16:31:32 INFO mapreduce.BuildForest: Storing the forest in: output_RF_10_64maps/forest.seq
 
-hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.TestForest -i datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff -ds datasets/kddcup/kddcup.info -m output_RF_10p_64maps -a -mr -o output_RF_10p_64maps_predict_out_predict
-16/06/11 08:34:37 INFO mapreduce.Classifier: Adding the dataset to the DistributedCache
-16/06/11 08:34:37 INFO mapreduce.Classifier: Adding the decision forest to the DistributedCache
-16/06/11 08:34:37 INFO mapreduce.Classifier: Configuring the job...
-16/06/11 08:34:37 INFO mapreduce.Classifier: Running the job...
-16/06/11 08:34:37 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
-16/06/11 08:34:38 INFO input.FileInputFormat: Total input paths to process : 1
-16/06/11 08:34:38 INFO mapreduce.JobSubmitter: number of splits:1
-16/06/11 08:34:38 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0331
-16/06/11 08:34:38 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0331
-16/06/11 08:34:38 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0331/
-16/06/11 08:34:38 INFO mapreduce.Job: Running job: job_1465394124104_0331
-16/06/11 08:34:44 INFO mapreduce.Job: Job job_1465394124104_0331 running in uber mode : false
-16/06/11 08:34:44 INFO mapreduce.Job:  map 0% reduce 0%
-16/06/11 08:34:54 INFO mapreduce.Job:  map 100% reduce 0%
-16/06/11 08:34:54 INFO mapreduce.Job: Job job_1465394124104_0331 completed successfully
-16/06/11 08:34:54 INFO mapreduce.Job: Counters: 30
+
+hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.TestForest -i datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tst.arff -ds datasets/kddcup/kddcup.info -m output_RF_10_64maps -a -mr -o output_RF_10_64maps_predict_out_predict
+
+16/06/11 16:31:51 INFO mapreduce.Classifier: Adding the dataset to the DistributedCache
+16/06/11 16:31:51 INFO mapreduce.Classifier: Adding the decision forest to the DistributedCache
+16/06/11 16:31:51 INFO mapreduce.Classifier: Configuring the job...
+16/06/11 16:31:51 INFO mapreduce.Classifier: Running the job...
+16/06/11 16:31:51 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
+16/06/11 16:31:52 INFO input.FileInputFormat: Total input paths to process : 1
+16/06/11 16:31:52 INFO mapreduce.JobSubmitter: number of splits:1
+16/06/11 16:31:52 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0378
+16/06/11 16:31:52 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0378
+16/06/11 16:31:52 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0378/
+16/06/11 16:31:52 INFO mapreduce.Job: Running job: job_1465394124104_0378
+16/06/11 16:31:57 INFO mapreduce.Job: Job job_1465394124104_0378 running in uber mode : false
+16/06/11 16:31:57 INFO mapreduce.Job:  map 0% reduce 0%
+16/06/11 16:32:04 INFO mapreduce.Job:  map 100% reduce 0%
+16/06/11 16:32:04 INFO mapreduce.Job: Job job_1465394124104_0378 completed successfully
+16/06/11 16:32:04 INFO mapreduce.Job: Counters: 30
 	File System Counters
-		FILE: Number of bytes read=81327
-		FILE: Number of bytes written=111217
+		FILE: Number of bytes read=83131
+		FILE: Number of bytes written=111214
 		FILE: Number of read operations=0
 		FILE: Number of large read operations=0
 		FILE: Number of write operations=0
-		HDFS: Number of bytes read=59433028
-		HDFS: Number of bytes written=7847744
+		HDFS: Number of bytes read=14858480
+		HDFS: Number of bytes written=1961964
 		HDFS: Number of read operations=5
 		HDFS: Number of large read operations=0
 		HDFS: Number of write operations=2
 	Job Counters 
 		Launched map tasks=1
 		Rack-local map tasks=1
-		Total time spent by all maps in occupied slots (ms)=52787
+		Total time spent by all maps in occupied slots (ms)=32900
 		Total time spent by all reduces in occupied slots (ms)=0
-		Total time spent by all map tasks (ms)=7541
-		Total vcore-seconds taken by all map tasks=7541
-		Total megabyte-seconds taken by all map tasks=52787000
+		Total time spent by all map tasks (ms)=4700
+		Total vcore-seconds taken by all map tasks=4700
+		Total megabyte-seconds taken by all map tasks=32900000
 	Map-Reduce Framework
-		Map input records=388495
-		Map output records=388496
+		Map input records=97120
+		Map output records=97121
 		Input split bytes=158
 		Spilled Records=0
 		Failed Shuffles=0
 		Merged Map outputs=0
-		GC time elapsed (ms)=78
-		CPU time spent (ms)=6580
-		Physical memory (bytes) snapshot=915832832
-		Virtual memory (bytes) snapshot=7183945728
-		Total committed heap usage (bytes)=2134376448
+		GC time elapsed (ms)=31
+		CPU time spent (ms)=3190
+		Physical memory (bytes) snapshot=400814080
+		Virtual memory (bytes) snapshot=7183507456
+		Total committed heap usage (bytes)=1011351552
 	File Input Format Counters 
-		Bytes Read=59432870
+		Bytes Read=14858322
 	File Output Format Counters 
-		Bytes Written=7847744
-16/06/11 08:34:55 INFO common.HadoopUtil: Deleting output_RF_10p_64maps_predict_out_predict/mappers
-16/06/11 08:34:55 INFO mapreduce.TestForest: 
+		Bytes Written=1961964
+16/06/11 16:32:05 INFO common.HadoopUtil: Deleting output_RF_10_64maps_predict_out_predict/mappers
+16/06/11 16:32:05 INFO mapreduce.TestForest: 
 =======================================================
 Summary
 -------------------------------------------------------
-Correctly Classified Instances          :     388190	   99.9215%
-Incorrectly Classified Instances        :        305	    0.0785%
-Total Classified Instances              :     388495
+Correctly Classified Instances          :      97050	   99.9279%
+Incorrectly Classified Instances        :         70	    0.0721%
+Total Classified Instances              :      97120
 
 =======================================================
 Confusion Matrix
 -------------------------------------------------------
 a    	b    	<--Classified as
-310043	303  	 |  310346	a     = negative
-2    	78147	 |  78149 	b     = positive
+77665	68   	 |  77733 	a     = negative
+2    	19385	 |  19387 	b     = positive
 
 =======================================================
 Statistics
 -------------------------------------------------------
-Kappa                                      -0.4763
-Accuracy                                   99.9215%
-Reliability                                66.6333%
+Kappa                                      -0.5405
+Accuracy                                   99.9279%
+Reliability                                66.6341%
 Reliability (standard deviation)            0.5771
 

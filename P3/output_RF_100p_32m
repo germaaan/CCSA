@@ -1,13 +1,3 @@
-[mcc54097023@hadoop-master kddcup]$ hadoop fs -ls ./datasets/kddcup
-Found 7 items
--rw-r--r--   2 mcc54097023 supergroup       2711 2016-05-16 19:31 datasets/kddcup/kddcup.info
--rw-r--r--   2 mcc54097023 supergroup   59432870 2016-05-16 19:16 datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tra.arff
--rw-r--r--   2 mcc54097023 supergroup   14858322 2016-05-16 19:16 datasets/kddcup/kddcup_10_normal_versus_DOS-5-1tst.arff
--rw-r--r--   2 mcc54097023 supergroup  297173309 2016-05-16 19:16 datasets/kddcup/kddcup_50_normal_versus_DOS-5-1tra.arff
--rw-r--r--   2 mcc54097023 supergroup   74294017 2016-05-16 19:16 datasets/kddcup/kddcup_50_normal_versus_DOS-5-1tst.arff
--rw-r--r--   2 mcc54097023 supergroup  594463330 2016-05-16 19:16 datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tra.arff
--rw-r--r--   2 mcc54097023 supergroup  148476979 2016-05-16 19:16 datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tst.arff
-
 100%
 32 map
 100 arboles
@@ -18,23 +8,28 @@ BYTES_BY_PARTITION=$((FILE_SIZE/$MAPS))
 MAX_BYTES_BY_PARTITION=$((BYTES_BY_PARTITION+1))
 
 hadoop fs -rm ./datasets/kddcup/kddcup.info
+
 hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.tools.Describe -p datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tra.arff -f datasets/kddcup/kddcup.info -d N 3 C 37 N L
 
-16/06/11 14:52:01 INFO mapreduce.BuildForest: Partial Mapred implementation
-16/06/11 14:52:01 INFO mapreduce.BuildForest: Building the forest...
-16/06/11 14:52:01 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
-16/06/11 14:52:02 INFO input.FileInputFormat: Total input paths to process : 1
-16/06/11 14:52:02 INFO mapreduce.JobSubmitter: number of splits:32
-16/06/11 14:52:02 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0350
-16/06/11 14:52:03 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0350
-16/06/11 14:52:03 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0350/
-16/06/11 14:52:03 INFO mapreduce.Job: Running job: job_1465394124104_0350
-16/06/11 14:52:08 INFO mapreduce.Job: Job job_1465394124104_0350 running in uber mode : false
-16/06/11 14:52:08 INFO mapreduce.Job:  map 0% reduce 0%
-16/06/11 14:52:18 INFO mapreduce.Job:  map 38% reduce 0%
-16/06/11 14:52:19 INFO mapreduce.Job:  map 100% reduce 0%
-16/06/11 14:52:27 INFO mapreduce.Job: Job job_1465394124104_0350 completed successfully
-16/06/11 14:52:27 INFO mapreduce.Job: Counters: 31
+hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.BuildForest -Dmapreduce.input.fileinputformat.split.minsize=$BYTES_BY_PARTITION -Dmapreduce.input.fileinputformat.split.maxsize=$MAX_BYTES_BY_PARTITION -o output_RF_100_32maps__ -d datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tra.arff -ds datasets/kddcup/kddcup.info -sl 15 -p -t 100
+
+16/06/11 16:23:46 INFO mapreduce.BuildForest: Partial Mapred implementation
+16/06/11 16:23:46 INFO mapreduce.BuildForest: Building the forest...
+16/06/11 16:23:46 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
+16/06/11 16:23:47 INFO input.FileInputFormat: Total input paths to process : 1
+16/06/11 16:23:47 INFO mapreduce.JobSubmitter: number of splits:32
+16/06/11 16:23:47 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0372
+16/06/11 16:23:47 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0372
+16/06/11 16:23:47 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0372/
+16/06/11 16:23:47 INFO mapreduce.Job: Running job: job_1465394124104_0372
+16/06/11 16:23:52 INFO mapreduce.Job: Job job_1465394124104_0372 running in uber mode : false
+16/06/11 16:23:52 INFO mapreduce.Job:  map 0% reduce 0%
+16/06/11 16:24:03 INFO mapreduce.Job:  map 34% reduce 0%
+16/06/11 16:24:05 INFO mapreduce.Job:  map 81% reduce 0%
+16/06/11 16:24:06 INFO mapreduce.Job:  map 94% reduce 0%
+16/06/11 16:24:07 INFO mapreduce.Job:  map 100% reduce 0%
+16/06/11 16:24:10 INFO mapreduce.Job: Job job_1465394124104_0372 completed successfully
+16/06/11 16:24:11 INFO mapreduce.Job: Counters: 31
 	File System Counters
 		FILE: Number of bytes read=86752
 		FILE: Number of bytes written=3578262
@@ -42,19 +37,19 @@ hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.class
 		FILE: Number of large read operations=0
 		FILE: Number of write operations=0
 		HDFS: Number of bytes read=594534818
-		HDFS: Number of bytes written=250208
+		HDFS: Number of bytes written=279260
 		HDFS: Number of read operations=160
 		HDFS: Number of large read operations=0
 		HDFS: Number of write operations=64
 	Job Counters 
 		Launched map tasks=32
-		Data-local map tasks=18
-		Rack-local map tasks=14
-		Total time spent by all maps in occupied slots (ms)=2179121
+		Data-local map tasks=21
+		Rack-local map tasks=11
+		Total time spent by all maps in occupied slots (ms)=2383248
 		Total time spent by all reduces in occupied slots (ms)=0
-		Total time spent by all map tasks (ms)=311303
-		Total vcore-seconds taken by all map tasks=311303
-		Total megabyte-seconds taken by all map tasks=2179121000
+		Total time spent by all map tasks (ms)=340464
+		Total vcore-seconds taken by all map tasks=340464
+		Total megabyte-seconds taken by all map tasks=2383248000
 	Map-Reduce Framework
 		Map input records=3885686
 		Map output records=100
@@ -62,46 +57,46 @@ hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.class
 		Spilled Records=0
 		Failed Shuffles=0
 		Merged Map outputs=0
-		GC time elapsed (ms)=3075
-		CPU time spent (ms)=294680
-		Physical memory (bytes) snapshot=23381299200
-		Virtual memory (bytes) snapshot=229863907328
-		Total committed heap usage (bytes)=41943040000
+		GC time elapsed (ms)=2987
+		CPU time spent (ms)=283610
+		Physical memory (bytes) snapshot=23330201600
+		Virtual memory (bytes) snapshot=229888311296
+		Total committed heap usage (bytes)=41335914496
 	File Input Format Counters 
 		Bytes Read=594529698
 	File Output Format Counters 
-		Bytes Written=250208
-16/06/11 14:52:27 INFO common.HadoopUtil: Deleting hdfs://hadoop-master/user/mcc54097023/output_RF_100_32maps_2
-16/06/11 14:52:27 INFO mapreduce.BuildForest: Build Time: 0h 0m 25s 949
-16/06/11 14:52:27 INFO mapreduce.BuildForest: Forest num Nodes: 12993
-16/06/11 14:52:27 INFO mapreduce.BuildForest: Forest mean num Nodes: 129
-16/06/11 14:52:27 INFO mapreduce.BuildForest: Forest mean max Depth: 7
-16/06/11 14:52:27 INFO mapreduce.BuildForest: Storing the forest in: output_RF_100_32maps_2/forest.seq
+		Bytes Written=279260
+16/06/11 16:24:11 INFO common.HadoopUtil: Deleting hdfs://hadoop-master/user/mcc54097023/output_RF_100_32maps__
+16/06/11 16:24:11 INFO mapreduce.BuildForest: Build Time: 0h 0m 25s 107
+16/06/11 16:24:11 INFO mapreduce.BuildForest: Forest num Nodes: 14442
+16/06/11 16:24:11 INFO mapreduce.BuildForest: Forest mean num Nodes: 144
+16/06/11 16:24:11 INFO mapreduce.BuildForest: Forest mean max Depth: 7
+16/06/11 16:24:11 INFO mapreduce.BuildForest: Storing the forest in: output_RF_100_32maps__/forest.seq
 
 
+hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.TestForest -i datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tst.arff -ds datasets/kddcup/kddcup.info -m output_RF_100_32maps__ -a -mr -o output_RF_100_32maps___predict_out_predict
 
-hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.classifier.df.mapreduce.TestForest -i datasets/kddcup/kddcup_full_normal_versus_DOS-5-1tst.arff -ds datasets/kddcup/kddcup.info -m output_RF_100_32maps_2 -a -mr -o output_RF_100_32maps_2_predict_out_predict
-16/06/11 14:55:27 INFO mapreduce.Classifier: Adding the dataset to the DistributedCache
-16/06/11 14:55:27 INFO mapreduce.Classifier: Adding the decision forest to the DistributedCache
-16/06/11 14:55:27 INFO mapreduce.Classifier: Configuring the job...
-16/06/11 14:55:27 INFO mapreduce.Classifier: Running the job...
-16/06/11 14:55:27 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
-16/06/11 14:55:28 INFO input.FileInputFormat: Total input paths to process : 1
-16/06/11 14:55:28 INFO mapreduce.JobSubmitter: number of splits:1
-16/06/11 14:55:28 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0351
-16/06/11 14:55:29 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0351
-16/06/11 14:55:29 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0351/
-16/06/11 14:55:29 INFO mapreduce.Job: Running job: job_1465394124104_0351
-16/06/11 14:55:34 INFO mapreduce.Job: Job job_1465394124104_0351 running in uber mode : false
-16/06/11 14:55:34 INFO mapreduce.Job:  map 0% reduce 0%
-16/06/11 14:55:45 INFO mapreduce.Job:  map 38% reduce 0%
-16/06/11 14:55:48 INFO mapreduce.Job:  map 60% reduce 0%
-16/06/11 14:55:51 INFO mapreduce.Job:  map 83% reduce 0%
-16/06/11 14:55:53 INFO mapreduce.Job:  map 100% reduce 0%
-16/06/11 14:55:54 INFO mapreduce.Job: Job job_1465394124104_0351 completed successfully
-16/06/11 14:55:54 INFO mapreduce.Job: Counters: 30
+16/06/11 16:24:43 INFO mapreduce.Classifier: Adding the dataset to the DistributedCache
+16/06/11 16:24:43 INFO mapreduce.Classifier: Adding the decision forest to the DistributedCache
+16/06/11 16:24:43 INFO mapreduce.Classifier: Configuring the job...
+16/06/11 16:24:43 INFO mapreduce.Classifier: Running the job...
+16/06/11 16:24:43 INFO client.RMProxy: Connecting to ResourceManager at hadoop-master/192.168.10.1:8032
+16/06/11 16:24:44 INFO input.FileInputFormat: Total input paths to process : 1
+16/06/11 16:24:44 INFO mapreduce.JobSubmitter: number of splits:1
+16/06/11 16:24:44 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1465394124104_0374
+16/06/11 16:24:45 INFO impl.YarnClientImpl: Submitted application application_1465394124104_0374
+16/06/11 16:24:45 INFO mapreduce.Job: The url to track the job: http://hadoop.ugr.es:8088/proxy/application_1465394124104_0374/
+16/06/11 16:24:45 INFO mapreduce.Job: Running job: job_1465394124104_0374
+16/06/11 16:24:50 INFO mapreduce.Job: Job job_1465394124104_0374 running in uber mode : false
+16/06/11 16:24:50 INFO mapreduce.Job:  map 0% reduce 0%
+16/06/11 16:25:00 INFO mapreduce.Job:  map 37% reduce 0%
+16/06/11 16:25:03 INFO mapreduce.Job:  map 60% reduce 0%
+16/06/11 16:25:06 INFO mapreduce.Job:  map 83% reduce 0%
+16/06/11 16:25:09 INFO mapreduce.Job:  map 100% reduce 0%
+16/06/11 16:25:09 INFO mapreduce.Job: Job job_1465394124104_0374 completed successfully
+16/06/11 16:25:09 INFO mapreduce.Job: Counters: 30
 	File System Counters
-		FILE: Number of bytes read=247695
+		FILE: Number of bytes read=276855
 		FILE: Number of bytes written=111225
 		FILE: Number of read operations=0
 		FILE: Number of large read operations=0
@@ -114,11 +109,11 @@ hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.class
 	Job Counters 
 		Launched map tasks=1
 		Rack-local map tasks=1
-		Total time spent by all maps in occupied slots (ms)=118209
+		Total time spent by all maps in occupied slots (ms)=117019
 		Total time spent by all reduces in occupied slots (ms)=0
-		Total time spent by all map tasks (ms)=16887
-		Total vcore-seconds taken by all map tasks=16887
-		Total megabyte-seconds taken by all map tasks=118209000
+		Total time spent by all map tasks (ms)=16717
+		Total vcore-seconds taken by all map tasks=16717
+		Total megabyte-seconds taken by all map tasks=117019000
 	Map-Reduce Framework
 		Map input records=970465
 		Map output records=970466
@@ -127,21 +122,21 @@ hadoop jar /home/mcc54097023/mahout-distribution-0.9.jar org.apache.mahout.class
 		Failed Shuffles=0
 		Merged Map outputs=0
 		GC time elapsed (ms)=89
-		CPU time spent (ms)=16220
-		Physical memory (bytes) snapshot=410873856
-		Virtual memory (bytes) snapshot=7183368192
+		CPU time spent (ms)=16140
+		Physical memory (bytes) snapshot=414515200
+		Virtual memory (bytes) snapshot=7183790080
 		Total committed heap usage (bytes)=859832320
 	File Input Format Counters 
 		Bytes Read=148476979
 	File Output Format Counters 
 		Bytes Written=19603526
-16/06/11 14:55:55 INFO common.HadoopUtil: Deleting output_RF_100_32maps_2_predict_out_predict/mappers
-16/06/11 14:55:56 INFO mapreduce.TestForest: 
+16/06/11 16:25:10 INFO common.HadoopUtil: Deleting output_RF_100_32maps___predict_out_predict/mappers
+16/06/11 16:25:11 INFO mapreduce.TestForest: 
 =======================================================
 Summary
 -------------------------------------------------------
-Correctly Classified Instances          :     970439	   99.9973%
-Incorrectly Classified Instances        :         26	    0.0027%
+Correctly Classified Instances          :     970437	   99.9971%
+Incorrectly Classified Instances        :         28	    0.0029%
 Total Classified Instances              :     970465
 
 =======================================================
@@ -149,13 +144,14 @@ Confusion Matrix
 -------------------------------------------------------
 a    	b    	<--Classified as
 776108	16   	 |  776124	a     = negative
-10   	194331	 |  194341	b     = positive
+12   	194329	 |  194341	b     = positive
 
 =======================================================
 Statistics
 -------------------------------------------------------
 Kappa                                      -0.4721
-Accuracy                                   99.9973%
-Reliability                                66.6643%
+Accuracy                                   99.9971%
+Reliability                                66.6639%
 Reliability (standard deviation)            0.5773
+
 
