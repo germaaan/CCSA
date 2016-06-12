@@ -1,0 +1,21 @@
+mkdir balancedbigdata
+cp -R minbigdata/* balancedbigdata/
+hdfs dfs -mkdir -p ./balancedbigdata/output/
+
+cd balancedbigdata
+rm -rf minbigdata_classes/
+rm minbigdata.jar
+mkdir balancedbigdata_classes
+
+mv Min.java Balanced.java && mv MinMapper.java BalancedMapper.java && mv MinReducer.java BalancedReducer.java
+
+#REVISAR ARCHIVOS
+
+javac -cp /usr/lib/hadoop/*:/usr/lib/hadoop-0.20-mapreduce/* -d balancedbigdata_classes Balanced.java BalancedMapper.java BalancedReducer.java
+
+jar -cvf balancedbigdata.jar -C balancedbigdata_classes / .
+
+hadoop jar balancedbigdata.jar oldapi.Balanced /user/daniel/ECBDL14_10columns/ECBDL14_10tra.data ./balancedbigdata/output_1/
+
+hdfs dfs -cat balancedbigdata/output_6/*
+Ratio:	45.0

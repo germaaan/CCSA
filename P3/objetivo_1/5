@@ -1,0 +1,21 @@
+mkdir avgbigdata
+cp -R minbigdata/* avgbigdata/
+hdfs dfs -mkdir -p ./avgbigdata/output/
+
+cd avgbigdata
+rm -rf minbigdata_classes/
+rm minbigdata.jar
+mkdir avgbigdata_classes
+
+mv Min.java Avg.java && mv MinMapper.java AvgMapper.java && mv MinReducer.java AvgReducer.java
+
+#REVISAR ARCHIVOS
+
+javac -cp /usr/lib/hadoop/*:/usr/lib/hadoop-0.20-mapreduce/* -d avgbigdata_classes Avg.java AvgMapper.java AvgReducer.java
+
+jar -cvf avgbigdata.jar -C avgbigdata_classes / .
+
+hadoop jar avgbigdata.jar oldapi.Avg /user/daniel/ECBDL14_10columns/ECBDL14_10tra.data ./avgbigdata/output_1/
+
+hdfs dfs -cat avgbigdata/output_1/*
+Avg:	-1.2354093582139625

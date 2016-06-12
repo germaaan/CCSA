@@ -1,0 +1,54 @@
+package oldapi;
+import java.io.IOException;
+import java.util.Iterator;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.MapReduceBase;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reducer;
+import org.apache.hadoop.mapred.Reporter;
+public class CoeffReducer extends MapReduceBase implements Reducer<PairWritable, PairWritable, PairWritable, DoubleWritable> {
+
+	public void reduce(PairWritable key, Iterator<PairWritable> values, OutputCollector<PairWritable, DoubleWritable> output, Reporter reporter) throws IOException {
+
+	        double x = 0.0d;
+		double y = 0.0d;
+		double xx = 0.0d;
+		double yy = 0.0d;
+		double xy = 0.0d;
+		double n = 0.0d;
+        	double corr = 0.0d;
+
+		while (values.hasNext()) {
+	            PairWritable aux = values.next();
+
+			x += aux.getX();
+			y += aux.getY();
+			xx += Math.pow(aux.getX(), 2.0d);
+			yy += Math.pow(aux.getY(), 2.0d);
+			xy += aux.getX() * aux.getY();
+			n += 1.0d;
+		}
+
+		if (0.0d != n){
+		    double numerator = x / n;
+		    numerator = numerator * y;
+		    numerator = xy - numerator;
+
+		    double denom1 = Math.pow(x, 2.0d) / n;
+		    denom1 = xx - denom1;
+
+		    double denom2 = Math.pow(y, 2.0d) / n;
+		    denom2 = yy - denom2;
+
+		    double denom = denom1 * denom2;
+		    denom = Math.sqrt(denom);
+
+		    corr = numerator / denom;
+        }
+
+    	output.collect(key, new DoubleWritable(corr));
+	}
+}
+

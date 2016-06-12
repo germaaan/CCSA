@@ -1,0 +1,21 @@
+mkdir coeffbigdata
+cp -R minbigdata/* coeffbigdata/
+hdfs dfs -mkdir -p ./coeffbigdata/output/
+
+cd coeffbigdata
+rm -rf minbigdata_classes/
+rm minbigdata.jar
+mkdir coeffbigdata_classes
+
+mv Min.java Coeff.java && mv MinMapper.java CoeffMapper.java && mv MinReducer.java CoeffReducer.java
+
+#REVISAR ARCHIVOS
+
+javac -cp /usr/lib/hadoop/*:/usr/lib/hadoop-0.20-mapreduce/* -d coeffbigdata_classes PairWritable.java Coeff.java CoeffMapper.java CoeffReducer.java
+
+jar -cvf coeffbigdata.jar -C coeffbigdata_classes / .
+
+hadoop jar coeffbigdata.jar oldapi.Coeff /user/daniel/ECBDL14_10columns/ECBDL14_10tra.data ./coeffbigdata/output_1/
+
+hdfs dfs -cat coeffbigdata/output_1/*
+Coeff:	-1.2354093582139625

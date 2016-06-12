@@ -1,0 +1,21 @@
+mkdir maxbigdata
+cp -R minbigdata/* maxbigdata/
+hdfs dfs -mkdir -p ./maxbigdata/output/
+
+cd maxbigdata
+rm -rf minbigdata_classes/
+rm minbigdata.jar
+mkdir maxbigdata_classes
+
+mv Min.java Max.java && mv MinMapper.java MaxMapper.java && mv MinReducer.java MaxReducer.java
+
+#REVISAR ARCHIVOS
+
+javac -cp /usr/lib/hadoop/*:/usr/lib/hadoop-0.20-mapreduce/* -d maxbigdata_classes Max.java MaxMapper.java MaxReducer.java
+
+jar -cvf maxbigdata.jar -C maxbigdata_classes / .
+
+hadoop jar maxbigdata.jar oldapi.Max /user/daniel/ECBDL14_10columns/ECBDL14_10tra.data ./maxbigdata/output_1/
+
+hdfs dfs -cat maxbigdata/output_1/*
+Max:	10.0

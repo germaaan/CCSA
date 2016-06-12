@@ -1,0 +1,13 @@
+mkdir minbigdata
+hdfs dfs -get /tmp/minbigdata/* ./minbigdata/
+hdfs dfs -mkdir -p ./minbigdata/output/
+
+cd minbigdata
+mkdir minbigdata_classes
+
+javac -cp /usr/lib/hadoop/*:/usr/lib/hadoop-0.20-mapreduce/* -d minbigdata_classes Min.java MinMapper.java MinReducer.java
+jar -cvf minbigdata.jar -C minbigdata_classes / .
+hadoop jar minbigdata.jar oldapi.Min /user/daniel/ECBDL14_10columns/ECBDL14_10tra.data ./minbigdata/output_1/
+
+hdfs dfs -cat minbigdata/output_2/*
+Min:	-13.0
